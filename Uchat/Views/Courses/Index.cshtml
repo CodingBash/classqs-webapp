@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Uchat.Models.ListCourseViewModel>
+
+@{
+    ViewBag.Title = "Classes";
+}
+
+<h2>Classes</h2>
+
+<p>
+    @Html.ActionLink("Add New Class", "Create")
+</p>
+<table class="table" id="course-table">
+    <thead>
+        <tr>
+            <th>
+                Class Name
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+			    @Html.ActionLink("New Session", "NewSession", new { id=item.ID }) |
+			    @Html.ActionLink("Sessions", "SessionList", new { id = item.ID }) |
+			    @Html.ActionLink("Quiz Templates", "QuizTemplates", new { id = item.ID }) |
+                @Html.ActionLink("Edit", "Edit", new { id=item.ID })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
+<script src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+<script>
+    $("#course-table").DataTable();
+</script>

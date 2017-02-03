@@ -1,0 +1,98 @@
+﻿@model Uchat.Models.ListSessionViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default" style="margin-top: 20px;">
+            <div class="panel-heading">
+                <span class="panel-title">@Html.DisplayFor(model => model.CourseName)</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-3 col-sm-push-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Actions
+            </div>
+            <div class="panel-body">
+                <div class="btn-toolbar">
+                    <div class="btn-group">
+                        @if (Model.IsTeacher)
+                        {
+                            <a class="btn btn-default btn-sm" href="@Url.Action("Create", new { courseID = Model.CourseID })">New Session</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9 col-sm-pull-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Sessions
+            </div>
+            <div class="panel-body">
+                <table class="table" id="session-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Session Name
+                            </th>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Ended
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Sessions)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DateStarted)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Ended)
+                                </td>
+                                <td>
+                                    @if (Model.IsTeacher)
+                                    {
+                                        @Html.ActionLink("Edit |", "Edit", new { id = item.ID })
+                                    }
+                                    @Html.ActionLink("Details", "Details", new { id = item.ID })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<nav>
+    <nav>
+        <ul class="pager">
+            <li class="previous"><a href="@Url.Action("CourseIndex")"><span aria-hidden="true">&larr;</span> Back to Classes</a></li>
+        </ul>
+    </nav>
+</nav>
+<script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
+<script src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+<script>
+    $("#session-table").DataTable({
+        "columnDefs": [{
+            orderable: false,
+            targets: [2, 3]
+        }]
+    });
+</script>

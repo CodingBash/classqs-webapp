@@ -1,0 +1,122 @@
+﻿@model Uchat.Models.ListQuestionViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="panel panel-default" style="margin-top: 20px;">
+    <div class="panel-heading">
+        <span class="panel-title"> @Html.DisplayFor(model => model.CourseName)</span>
+    </div>
+    <div class="panel-body">
+        @Html.DisplayFor(model => model.SessionName)
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-3 col-sm-push-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Actions
+            </div>
+            <div class="panel-body">
+                <div class="btn-toolbar">
+                    <div class="btn-group">
+                        @if (Model.IsStudent && !Model.SessionEnded)
+						{
+							<a class="btn btn-default btn-sm" href="@Url.Action("Create", new { sessionId = Model.SessionID })">New Question</a>
+						}
+						@if (Model.IsTeacher && !Model.SessionEnded)
+						{
+							<a class="btn btn-default btn-sm" href="@Url.Action("Quiz", new { sessionId = Model.SessionID })">Quiz Question</a>
+						}
+                    </div>
+					<div class="btn-group">
+						@if (Model.IsStudent && !Model.SessionEnded)
+						{
+							<a class="btn btn-sm btn-warning" href="@Url.Action("TakeQuiz", new { sessionId = Model.SessionID })">Take Quiz (@Model.UnansweredQuizQuestions)</a>
+						}
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9 col-sm-pull-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">Questions</div>
+            <div class="panel-body">
+                <table class="table" id="question-table">
+                    <thead>
+                        <tr>
+                            <th class="col-md-2">
+                                Asked By
+                            </th>
+                            <th></th>
+                            <th>
+                                Question
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model.Questions)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Student.UserName)
+                            </td>
+                            <td>
+								@{ int likeCount = item.Likes.Count(); }
+                                @if (Model.UserID == item.StudentID || !Model.IsStudent || Model.SessionEnded)
+                                {
+                                    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                                    @Html.DisplayFor(modelItem => likeCount)
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Like", new { questionId = item.ID })">
+                                        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                                        @Html.DisplayFor(modelItem => likeCount)
+                                    </a>
+                                }
+                            </td>
+                            <td>
+                                @if (!Model.IsStudent && !Model.SessionEnded)
+                                {
+                                    <a href="@Url.Action("Answer", new { questionId = item.ID })">
+                                        @Html.DisplayFor(modelItem => item.Text)
+                                    </a>
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.Text)
+                                }
+                                <ul>
+                                    @foreach (var ans in item.Answers)
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("ViewAnswer", new { answerId = ans.ID })">
+                                                @Html.DisplayFor(modelAns => ans.Text)
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <nav>
+        <nav>
+            <ul class="pager">
+                <li class="previous"><a href="@Url.Action("SessionIndex", new { courseId = Model.CourseID })"><span aria-hidden="true">&larr;</span> Back to Sessions</a></li>
+            </ul>
+        </nav>
+    </nav>
+</div>
+<script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
+<script src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+<script>
+    $("#question-table").DataTable();
+</script>

@@ -1,0 +1,32 @@
+﻿@model Uchat.Models.ListQuizTemplateQuestionViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Quiz Templates for @Model.Course.Name</h2>
+@Html.ActionLink("Add New Template", "Create", new { courseId = Model.Course.ID })
+
+<table class="table">
+    <tr>
+        <th>
+            Question
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Questions) {
+    <tr>
+        <td>
+           @Html.DisplayFor(modelItem => item.Text) 
+        </td>
+		<td>
+			@Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+			@Html.ActionLink("Answers", "Details", new { id = item.ID }) |
+			@Html.ActionLink("Delete", "Delete", new { id = item.ID })
+		</td>
+    </tr>
+}
+</table>
+@Html.ActionLink("Back to Courses", "Index", "Courses")
+

@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Uchat.Models.ListEnrollmentViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default" style="margin-top: 20px;">
+            <div class="panel-heading">
+                <span class="panel-title"> My Classes</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-3 col-sm-push-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Actions
+            </div>
+            <div class="panel-body">
+                <div class="btn-toolbar">
+                    <div class="btn-group">
+                        <a class="btn btn-default btn-sm" href="@Url.Action("Add")">New Enrollment</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9 col-sm-pull-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Classes
+            </div>
+            <div class="panel-body">
+                <table class="table" id="enrollment-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Course
+                            </th>
+                            <th>
+                                Professor
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Course)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Teacher)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
+<script src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+<script>
+    $("#enrollment-table").DataTable({
+        "columnDefs": [{
+            orderable: false,
+            targets: [2]
+        }]
+    });
+</script>
+

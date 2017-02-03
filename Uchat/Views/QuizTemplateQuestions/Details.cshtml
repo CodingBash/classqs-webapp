@@ -1,0 +1,26 @@
+﻿@model Uchat.Models.QuizTemplateQuestion
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Quiz Question Choices</h2>
+
+<div>
+    <h3>@Model.Text</h3>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Text)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Text)
+        </dd>
+    </dl>
+	<h4>Answers:</h4>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index", new { courseId = Model.CourseID })
+</p>

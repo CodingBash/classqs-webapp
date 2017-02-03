@@ -1,0 +1,39 @@
+﻿@model Uchat.Models.QuizTemplateQuestion
+
+@{
+    ViewBag.Title = "Answers";
+}
+
+<h2>Quiz Answer Choices</h2>
+<h3>@Html.DisplayFor(model => model.Text)</h3>
+<p>
+    @Html.ActionLink("Create New", "Create", new { questionId = Model.ID })
+</p>
+<table class="table">
+    <tr>
+        <th>
+			Answer Text
+        </th>
+        <th>
+			Is it correct?
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Answers) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Text)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsCorrect)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+</table>
+<p>@Html.ActionLink("Back to Templates", "TemplateList", new { courseId = Model.CourseID })</p>

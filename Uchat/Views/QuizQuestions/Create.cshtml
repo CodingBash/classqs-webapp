@@ -1,0 +1,39 @@
+﻿@model Uchat.Models.SelectQuizQuestionsViewModel
+
+@{
+	ViewBag.Title = "Index";
+}
+
+<h2>@Model.Session.Course.Name</h2>
+<h3>@Model.Session.Name</h3>
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="form-horizontal">
+		@Html.HiddenFor(model => model.Session.ID)
+
+		@foreach (var item in Model.Session.Course.QuizTemplateQuestions)
+		{
+			<div class="form-group">
+				<input type="checkbox" name="SelectedQuestions" value="@item.ID" class="col-md-2" />
+				<span class="col-md-10">@item.Text</span>
+			</div>
+		}
+
+		<div class="form-group">
+			<div class="col-md-10">
+				<input type="submit" value="Create Quiz" class="btn btn-default btn-primary" />
+			</div>
+		</div>
+	</div>
+}
+
+<div>
+	@Html.ActionLink("Back to Session", "Index", new { sessionId = @Model.Session.ID })
+</div>
+
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+}

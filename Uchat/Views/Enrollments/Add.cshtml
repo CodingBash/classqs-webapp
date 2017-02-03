@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Uchat.Models.Course>
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Class Enrollment</h2>
+
+<table class="table">
+	<tr>
+		<th>
+			Course
+		</th>
+		<th>
+			Professor
+		</th>
+		<th></th>
+	</tr>
+
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Name)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Teacher.Email)
+			</td>
+			<td>
+				@Html.ActionLink("Enroll", "Enroll", new { id = item.ID })
+			</td>
+		</tr>
+	}
+
+</table>
+
+<div>
+    @Html.ActionLink("Back to Enrollments", "Index")
+</div>
